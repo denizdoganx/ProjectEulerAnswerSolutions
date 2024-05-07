@@ -1,0 +1,67 @@
+body {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Navbar'ın diğer elementlerin önünde olmasını sağlar */
+  }
+  
+  .navbar-brand {
+    margin-left: 25px;
+  }
+  
+  .sidebar {
+    margin-top: 56px; /* Navbar'ın yüksekliği kadar margin-top ekleyerek, sidebar'ın altında kalmasını sağlarız */
+    margin-left: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  .sidebar a {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+  }
+  
+  .sidebar a.active {
+    background-color: #2F2F2F;
+    color: white;
+  }
+  
+  .sidebar a:hover:not(.active) {
+    background-color: #948979;
+    color: white;
+  }
+  
+  .container {
+    margin-left: 220px; /* Sidebar'ın genişliği kadar bir margin-left */
+    padding: 50px;
+    text-align: center;
+  }
+  #answer {
+    margin-top: 100px;
+  }
+  @media screen and (max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        float: none;
+    }
+  
+    .container {
+        margin-left: 0;
+    }
+  }
