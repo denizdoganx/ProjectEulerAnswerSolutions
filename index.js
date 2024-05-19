@@ -49,6 +49,9 @@ var routeRequest = (name) => {
         case sideBarElementNameList[10]:
             answerTag.innerHTML = name + " : " + getLargestProductInAGrid();
             break;
+        case sideBarElementNameList[11]:
+            answerTag.innerHTML = name + " : " + getTheSmallestNumberOfTrianglesWithMoreThanNDivisors(500);
+            break;
         default:
             break;
     }
@@ -464,4 +467,54 @@ var getMaxProductWithGivenMatrix = (matrix) => {
 
 
     return Math.max(rowMax, columnMax, diagonalMax);
+};
+
+
+/**
+ * 
+ * @param {Number} N
+ * @returns {Number} 
+ */
+const getTheSmallestNumberOfTrianglesWithMoreThanNDivisors = (N) => {
+    let counter = 0;
+    let requestedTriangleNum;
+    do {
+        counter ++;
+        requestedTriangleNum = getNThTriangleNumber(counter);
+        
+    } while(howManyDivisibleDoesItHave(requestedTriangleNum) <= N);
+    return requestedTriangleNum;
+};
+
+/**
+ * 
+ * @param {Number} num
+ * @returns {Number} 
+ */
+const howManyDivisibleDoesItHave = (num) => {
+    const powers = [];
+    let divisibleCount = 1;
+    for(let i = 2;i <= num; i ++) {
+        if(isPrime(i) && num % i === 0) {
+            let pow = 0;
+            do {
+                pow++;
+                num /= i;
+            } while(num % i === 0);
+            powers.push(pow);
+        }
+    }
+    powers.forEach((pow) => {
+        divisibleCount *= (pow + 1);
+    });
+    return divisibleCount;
+};  
+
+/**
+ * 
+ * @param {Number} n 
+ * @returns {Number}
+ */
+const getNThTriangleNumber = (n) => {
+    return (n*(n+1)) / 2;
 };
