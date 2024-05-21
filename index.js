@@ -55,10 +55,109 @@ var routeRequest = (name) => {
         case sideBarElementNameList[12]:
             answerTag.innerHTML = name + " : " + largeSum();
             break;
+        case sideBarElementNameList[13]:
+            answerTag.innerHTML = name + " : " + longestCollatzSequence(1000000);
+            break;
+        case sideBarElementNameList[14]:
+            answerTag.innerHTML = name + " : " + latticePaths(20, 20);
+            break;
         default:
             break;
     }
 }
+
+/**
+ * 
+ * @param {Number} rowCount 
+ * @param {Number} columnCount 
+ * @returns {Number}
+ */
+const latticePaths = (rowCount, columnCount) => {
+    const primeFactorsForPath = getPrimeFactors(rowCount + columnCount);
+    const primeFactorsForRow = getPrimeFactors(rowCount);
+    const primeFactorsForColumn = getPrimeFactors(columnCount);
+    let latticePathsCount = 1;
+
+    primeFactorsForRow.forEach((value, key) => {
+        primeFactorsForPath.set(key, primeFactorsForPath.get(key) - value);
+    });
+
+    primeFactorsForColumn.forEach((value, key) => {
+        primeFactorsForPath.set(key, primeFactorsForPath.get(key) - value);
+    });
+
+    primeFactorsForPath.forEach((value, key) => {
+        latticePathsCount *= Math.pow(key, value);
+    });
+    return latticePathsCount;
+};
+
+/**
+ * 
+ * @param {Number} number 
+ * @returns {Map}
+ */
+const getPrimeFactors = (number) => {
+    const primeFactors = new Map();
+    for(let i = 2;i <= number; i++) {
+        if(isPrime(i)) {
+            if(primeFactors.has(i)) {
+                primeFactors.set(i, primeFactors.get(i) + 1);
+            } else {
+                primeFactors.set(i, 1);
+            }
+        } else {
+            let num = i;
+            for(let j = 2;j <= num; j++) {
+                if(num % j === 0 && isPrime(j)) {
+                    let pow = 0;
+                    do {
+                        pow++;
+                        num = num / j;
+                    } while(num % j === 0);
+                    primeFactors.set(j, primeFactors.get(j) + pow);
+                }
+            }
+        }
+    }
+    return primeFactors;
+};
+
+const longestCollatzSequence = (bound) => {
+    let max = 0;
+    let tempLength;
+    let requestedNum;
+    for(let i = 1;i < bound; i++) {
+        tempLength =  getLengthOfCollatzSequence(i);
+        if(tempLength > max) {
+            max = tempLength;
+            requestedNum = i;
+        }
+    }
+
+    return requestedNum;
+    
+};
+
+
+/**
+ * 
+ * @param {Number} num
+ * @returns {Number} 
+ */
+const getLengthOfCollatzSequence = (num) => {
+    let length = 1;
+    while(num != 1) {
+        if(num % 2 === 0) {
+            num = num / 2;
+        } else {
+            num = 3 * num + 1;
+        }
+        length++;
+    } 
+    return length;
+};
+
 
 /**
  * @param {Array} coefficents

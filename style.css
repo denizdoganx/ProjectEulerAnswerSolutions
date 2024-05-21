@@ -22,10 +22,11 @@ body {
     padding: 0;
     width: 200px;
     background-color: #f1f1f1;
-    height: 100vh;
+    height: 90vh;
     position: fixed;
     top: 0;
     left: 0;
+    overflow-y: auto;
   }
   
   .sidebar a {
