@@ -61,10 +61,105 @@ var routeRequest = (name) => {
         case sideBarElementNameList[14]:
             answerTag.innerHTML = name + " : " + latticePaths(20, 20);
             break;
+        case sideBarElementNameList[15]:
+            answerTag.innerHTML = name + " : " + powerDigitSum(2, 1000);
+            break;
+        case sideBarElementNameList[16]:
+            answerTag.innerHTML = name + " : " + numberLetterCounts(1, 1000);
+            break;
         default:
             break;
     }
 }
+
+/**
+ * 
+ * @param {Number} lowerLimit 
+ * @param {Number} upperLimit 
+ * @returns {Number}
+ */
+const numberLetterCounts = (lowerLimit, upperLimit) => {
+
+    let sum = 0;
+    const numberMapper = new Map();
+    numberMapper.set(1, "one");
+    numberMapper.set(2, "two");
+    numberMapper.set(3, "three");
+    numberMapper.set(4, "four");
+    numberMapper.set(5, "five");
+    numberMapper.set(6, "six");
+    numberMapper.set(7, "seven");
+    numberMapper.set(8, "eight");
+    numberMapper.set(9, "nine");
+    numberMapper.set(10, "ten");
+    numberMapper.set(11, "eleven");
+    numberMapper.set(12, "twelve");
+    numberMapper.set(13, "thirteen");
+    numberMapper.set(14, "fourteen");
+    numberMapper.set(15, "fifteen");
+    numberMapper.set(16, "sixteen");
+    numberMapper.set(17, "seventeen");
+    numberMapper.set(18, "eighteen");
+    numberMapper.set(19, "nineteen");
+    numberMapper.set(20, "twenty");
+    numberMapper.set(30, "thirty");
+    numberMapper.set(40, "forty");
+    numberMapper.set(50, "fifty");
+    numberMapper.set(60, "sixty");
+    numberMapper.set(70, "seventy");
+    numberMapper.set(80, "eighty");
+    numberMapper.set(90, "ninety");
+    numberMapper.set(100, "onehundred");
+    numberMapper.set(200, "twohundred");
+    numberMapper.set(300, "threehundred");
+    numberMapper.set(400, "fourhundred");
+    numberMapper.set(500, "fivehundred");
+    numberMapper.set(600, "sixhundred");
+    numberMapper.set(700, "sevenhundred");
+    numberMapper.set(800, "eighthundred");
+    numberMapper.set(900, "ninehundred");
+    numberMapper.set(1000, "onethousand");
+
+    for(let i = lowerLimit;i <= upperLimit; i++) {
+        if(numberMapper.has(i)) {
+            //Number mapper contains given number
+            sum += String(numberMapper.get(i)).length;
+        }
+        else  if(i > 20 && i < 100) {
+            // from twenty-one to ninety-nine
+            sum += String(numberMapper.get(i - (i % 10))).length;
+            sum += String(numberMapper.get(i % 10)).length;
+        }
+        else {
+            const secondPart = i % 100;
+            if(numberMapper.has(secondPart)) {
+                sum += String(numberMapper.get(secondPart)).length;
+            }
+            else {
+                sum += String(numberMapper.get(secondPart - (secondPart % 10))).length;
+                sum += String(numberMapper.get(secondPart % 10)).length;
+            }
+            sum += String(numberMapper.get(i - (secondPart))).length;
+            //This is coming from the length of "and" word.
+            sum += 3;
+        }
+    }
+    return sum;
+};
+
+
+/**
+ * 
+ * @param {Number} num 
+ * @param {Number} pow
+ * @returns {Number} 
+ */
+const powerDigitSum = (num, pow) => {
+    let number = BigInt(num) ** BigInt(pow);
+    let digits = number.toString().split('');
+    let digitSum = digits.reduce((sum, digit) => sum + Number(digit), 0);
+    return digitSum;
+};
 
 /**
  * 
